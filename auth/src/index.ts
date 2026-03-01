@@ -8,6 +8,7 @@ import { signinRouter } from "./routes/signin";
 import { signoutRouter } from "./routes/signout";
 import { signupRouter } from "./routes/signup";
 import { errorHandler } from "./middlewares/error";
+import { DatabaseConnectionError } from "./errors/database-connection-error";
 
 const app = express();
 app.use(json());
@@ -19,17 +20,18 @@ app.use(signupRouter);
 
 app.use(errorHandler);
 
-const start=async()=>{
+const start = async () => {
   try {
-    await mongoose.connect('mongodb://auth-mongo-srv:27017/auth');
-    console.log('connected to mongodb');
+    await mongoose.connect("mongodb://auth-mongo-srv:27017/auth");
+    console.log("connected to mongodb");
   } catch (err) {
     console.log(err);
+    throw new DatabaseConnectionError();
   }
 
   app.listen(3000, () => {
-  console.log(`Listening on ${3000}`);
-});
-}
+    console.log(`Listening on ${3000}`);
+  });
+};
 
 start();
