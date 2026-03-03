@@ -30,6 +30,7 @@ import { Password } from "../services/password";
 interface UserAttrs {
   email: string;
   password: string;
+  // id:string
 }
 
 /*
@@ -49,6 +50,10 @@ interface UserAttrs {
 interface UserDoc extends mongoose.Document {
   email: string;
   password: string;
+  id: string;
+}
+
+interface idd {
   id: string;
 }
 
@@ -101,7 +106,7 @@ const userSchema = new mongoose.Schema(
   },
   {
     toJSON: {
-      transform(doc, ret) {
+      transform(doc, ret: any) {
         ret.id = ret._id;
         delete ret._id;
         delete ret.password;
