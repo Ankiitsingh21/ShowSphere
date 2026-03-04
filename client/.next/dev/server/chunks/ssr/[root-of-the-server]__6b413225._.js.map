@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 10, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/mohit/Projects/ShowSphere/client/pages/banana.js"],"sourcesContent":["const banana = ()=>{\r\n        return (\r\n                <h2>\r\n                        hii\r\n                </h2>\r\n        )\r\n}\r\n\r\nexport default banana;"],"names":[],"mappings":";;;;;;AAAA,MAAM,SAAS;IACP,qBACQ,qKAAC;kBAAG;;;;;;AAIpB;uCAEe"}}]
+}

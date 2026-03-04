@@ -1,0 +1,11 @@
+[00:00:05.341] Server  LOG     ✓ Ready in 3.9s
+[00:01:18.069] Server  LOG     ✓ Compiled in 526ms
+[00:01:18.092] Server  WARN    ⚠ Fast Refresh had to perform a full reload when ./pages/auth/signup.jsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:01:31.402] Browser ERROR   %o
+
+%s
+
+%s
+ {} The above error occurred in one of your React components. React will try to recreate this component tree from scratch using the error boundary you provided, PagesDevOverlayErrorBoundary.
+[00:02:36.396] Server  LOG     ✓ Compiled in 603ms
+[00:02:36.409] Server  WARN    ⚠ Fast Refresh had to perform a full reload when ./pages/auth/signup.jsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload

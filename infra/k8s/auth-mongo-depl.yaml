@@ -4,23 +4,24 @@ metadata:
   name: auth-mongo-depl
 spec:
   replicas: 1
-  selector:
+  selector:    # find pods how it acutually created
     matchLabels:
       app: auth-mongo
+
   template:
     metadata:
-      labels:
+      labels:  # label that get apply to the pod
         app: auth-mongo
     spec:
       containers:
         - name: auth-mongo
-          image: mongo
-
+          image: mongo   # fetch from docker hub
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-mongo-srv
+  name: mongo-auth-srv
 spec:
   selector:
     app: auth-mongo

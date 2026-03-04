@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/mohit/Projects/ShowSphere/client/pages/_app.js"],"sourcesContent":["// import 'bootstrap/dist/css/bootstrap.css';\r\n\r\n// export default function App({ Component, pageProps }) {\r\n//   return <Component {...pageProps} />;\r\n// }\r\n\r\n"],"names":[],"mappings":"AAAA,6CAA6C;AAE7C,0DAA0D;AAC1D,yCAAyC;AACzC,IAAI"}}]
+}
