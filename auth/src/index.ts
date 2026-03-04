@@ -8,12 +8,12 @@ const start = async () => {
   }
 
   try {
-    await mongoose.connect("mongodb://auth-mongo-srv:27017/auth");
+    await mongoose.connect("mongodb://mongo-auth-srv:27017/auth");
     console.log("connected to mongodb");
   } catch (err) {
     console.log("Mongo connection failed. Retrying...");
     setTimeout(start, 5000);
-    throw new DatabaseConnectionError()
+    // throw new DatabaseConnectionError()
     return;
   }
 

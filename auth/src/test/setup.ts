@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 // global signup function
 declare global {
-      var signin: () => Promise<string[]>;
+  var signin: () => Promise<string[]>;
 }
 
 /**
