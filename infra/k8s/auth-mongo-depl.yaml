@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-mongo-depl
+  name: auth-mongo-srv
 spec:
   replicas: 1
   selector:    # find pods how it acutually created
