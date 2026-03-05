@@ -1,3 +1,5 @@
 {
-  "/": ["static/chunks/pages/index.js"]
+  "/": [
+    "static/chunks/pages/index.js"
+  ]
 }
