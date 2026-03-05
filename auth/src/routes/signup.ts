@@ -1,7 +1,6 @@
 import express, { Request, Response } from "express";
 import { body, validationResult } from "express-validator";
-import { validateRequest } from "../middlewares/validate-request";
-import { BadRequestError } from "../errors/bad-request-error";
+import { validateRequest ,BadRequestError} from "@showsphere/common";
 import { User } from "../modals/user";
 import jwt from "jsonwebtoken";
 
