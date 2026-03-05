@@ -16,8 +16,8 @@ spec:
         - name: tickets
           image: ankiitsingh21/tickets
           env: 
-            # - name: MONO_URI
-            #   value: mongodb://mongo-tickets-srv:27017/tickets
+            - name: MONGO_URI
+              value: mongodb://mongo-tickets-srv:27017/tickets
             - name: JWT_KEY
               valueFrom: 
                  secretKeyRef:

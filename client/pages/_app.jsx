@@ -13,7 +13,14 @@ const AppComponent = ({ Component, pageProps, currentUser }) => {
 
 AppComponent.getInitialProps = async (appContext) => {
   const client = buildClient(appContext.ctx);
-  const { data } = await  client.get("/api/users/currentuser");
+  let data = { currentUser: null };
+
+  try {
+    const response = await client.get("/api/users/currentuser");
+    data = response.data;
+  } catch (error) {
+    console.error("[_app] currentuser fetch failed:", error.message);
+  }
 
   let pageProps = {};
   if (appContext.Component.getInitialProps) {

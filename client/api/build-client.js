@@ -6,8 +6,10 @@ const buildClient = ({ req }) => {
     return axios.create({
       baseURL:
         "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local",
-      headers: req.headers,
-      host: "ticketing.dev"
+      headers: {
+        ...req.headers,
+        host: "ticketing.dev", // ✅ correctly overrides the host header
+      },
     });
   } else {
     // Client side

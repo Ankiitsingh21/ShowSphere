@@ -9,8 +9,13 @@ const LandingPage = ({ currentUser }) => {
 };
 
 LandingPage.getInitialProps = async (context) => {
-  const { data } = await buildClient(context).get("/api/users/currentuser");
-  return data;
+  try {
+    const { data } = await buildClient(context).get("/api/users/currentuser");
+    return data;
+  } catch (err) {
+    console.error("[index] currentuser fetch failed:", err.message);
+    return { currentUser: null };
+  }
 };
 
 export default LandingPage;

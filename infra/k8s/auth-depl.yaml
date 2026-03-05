@@ -16,6 +16,8 @@ spec:
         - name: auth
           image: ankiitsingh21/auth
           env: 
+            - name: MONGO_URI
+              value: mongodb://mongo-auth-srv:27017/auth
             - name: JWT_KEY
               valueFrom: 
                  secretKeyRef:

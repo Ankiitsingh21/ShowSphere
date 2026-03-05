@@ -7,7 +7,7 @@ import { currentUserRouter } from "./routes/current-user";
 import { signinRouter } from "./routes/signin";
 import { signoutRouter } from "./routes/signout";
 import { signupRouter } from "./routes/signup";
-import { errorHandler ,NotFoundError } from "@showsphere/common";
+import { errorHandler, NotFoundError } from "@showsphere/common";
 
 const app = express();
 app.set("trust proxy", true);
@@ -25,7 +25,7 @@ app.use(signinRouter);
 app.use(signoutRouter);
 app.use(signupRouter);
 
-app.all('*', async (req, res) => {
+app.all("*", async (req, res) => {
   throw new NotFoundError();
 });
 
