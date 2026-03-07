@@ -40,8 +40,8 @@ router.put(
     }
 
     ticket.set({
-      title:req.body.title,
-      price:req.body.price
+      title: req.body.title,
+      price: req.body.price,
     });
 
     await ticket.save();
