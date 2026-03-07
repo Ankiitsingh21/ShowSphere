@@ -31,9 +31,4 @@ router.post(
   },
 );
 
-
-router.get("/api/tickets",async(req:Request,res:Response)=>{
-        
-})
-
 export { router as createTicketRouter };
