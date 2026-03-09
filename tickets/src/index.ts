@@ -10,12 +10,25 @@ const start = async () => {
   if (!process.env.MONGO_URI) {
     throw new Error("mongodb url is incorrect");
   }
+  if (!process.env.NATS_CLIENT_ID) {
+    throw new Error("NATS_CLIENT_ID is incorrect");
+  }
+  if (!process.env.NATS_CLUSTER_ID) {
+    throw new Error("NATS_CLUSTER_ID is incorrect");
+  }
+  if (!process.env.NATS_URL) {
+    throw new Error("NATS_URL is incorrect");
+  }
 
   try {
     // console.log(process.env.MONGO_URI);
     await mongoose.connect(process.env.MONGO_URI);
     console.log("connected to mongodb");
-    await natsWrapper.connect("ticketing", "fssr", "https://nats-srv:4222");
+    await natsWrapper.connect(
+      process.env.NATS_CLUSTER_ID,
+      process.env.NATS_CLIENT_ID,
+      process.env.NATS_URL,
+    );
 
     natsWrapper.client.on("close", () => {
       console.log("NATS connection closed!");

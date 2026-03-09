@@ -16,6 +16,8 @@ declare global {
 import { app } from "../app";
 import request from "supertest";
 
+jest.mock("../nats-wrapper");
+
 let mongo: any;
 /**
  * run before every test
@@ -34,6 +36,7 @@ beforeAll(async () => {
  *  clear the db by deleting every collection
  */
 beforeEach(async () => {
+  jest.clearAllMocks();
   const collections = await mongoose.connection.db?.collections();
   for (let collection of collections!) {
     await collection.deleteMany({});
