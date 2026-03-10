@@ -5,6 +5,8 @@ import {
 } from "@showsphere/common";
 import express, { Request, Response } from "express";
 import { Order,OrderStatus } from "../models/order";
+import { OrderCancelledPublisher } from "../events/publishers/order-cancelled-event";
+import { natsWrapper } from "../nats-wrapper";
 
 const router = express.Router();
 
@@ -14,7 +16,7 @@ router.delete(
   async (req: Request, res: Response) => {
     const orderid = req.params.orderId;
 
-    const order = await Order.findById(orderid);
+    const order = await Order.findById(orderid).populate('ticket');
     if (!order) {
       throw new NotFoundError();
     }
@@ -24,6 +26,13 @@ router.delete(
 
     order.status = OrderStatus.Cancelled;
     await order.save();
+
+    new OrderCancelledPublisher(natsWrapper.client).publish({
+      id:order.id,
+      ticket:{
+        id:order.ticket.id
+      }
+    })
     res.status(204).send(order);
   },
 );
