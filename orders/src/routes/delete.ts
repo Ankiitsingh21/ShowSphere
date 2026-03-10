@@ -1,11 +1,10 @@
 import {
   NotAuthorizedError,
   NotFoundError,
-  OrderStatus,
   requireAuth,
 } from "@showsphere/common";
 import express, { Request, Response } from "express";
-import { Order } from "../models/order";
+import { Order,OrderStatus } from "../models/order";
 
 const router = express.Router();
 
