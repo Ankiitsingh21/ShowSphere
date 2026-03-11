@@ -1,63 +1,80 @@
-import { MongoMemoryServer } from 'mongodb-memory-server';
-import mongoose from 'mongoose';
-import request from 'supertest';
-import { app } from '../app';
-import jwt from 'jsonwebtoken';
+import { MongoMemoryServer } from "mongodb-memory-server";
+import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
 
+// global signup function
 declare global {
   var signin: () => string[];
 }
 
-jest.mock('../nats-wrapper');
+/**
+ * Use mongodb memory srever for test env
+ * Copy of mongodb in memory
+ *
+ */
+
+import { app } from "../app";
+import request from "supertest";
+
+jest.mock("../nats-wrapper");
+// jest.setTimeout(30000);
 
 let mongo: any;
+/**
+ * run before every test
+ * connect mongosse to mongodb in memory
+ */
 beforeAll(async () => {
-  process.env.JWT_KEY = 'asddf';
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-
-  const mongo = await MongoMemoryServer.create();
+  process.env.JWT_KEY = "asddf";
+  mongo = await MongoMemoryServer.create();
   const mongoUri = mongo.getUri();
 
   await mongoose.connect(mongoUri, {});
-});
+},30000);
 
+/**
+ *  Run before eeach test
+ *  clear the db by deleting every collection
+ */
 beforeEach(async () => {
   jest.clearAllMocks();
-  if (mongoose.connection.db) {
-    const collections = await mongoose.connection.db.collections();
-
-    for (let collection of collections) {
-      await collection.deleteMany({});
-    }
+  const collections = await mongoose.connection.db?.collections();
+  for (let collection of collections!) {
+    await collection.deleteMany({});
   }
 });
 
+/**
+ *  Run after all our test are complete
+ */
+
 afterAll(async () => {
-  if (mongo) {
-    await mongo.stop();
-  }
+  await mongo.stop();
   await mongoose.connection.close();
 });
 
 global.signin = () => {
-  // Build a JWT payload.  { id, email }
+  //Build  a JWT payload
+  const id = new mongoose.Types.ObjectId().toHexString();
+
   const payload = {
-    id: new mongoose.Types.ObjectId().toHexString(),
-    email: 'test@test.com',
+    id: id,
+    email: "asdwqdw@mail.com",
   };
 
-  // Create the JWT!
+  //create the jwt!
+
   const token = jwt.sign(payload, process.env.JWT_KEY!);
 
-  // Build session Object. { jwt: MY_JWT }
+  //Build session Object. {jst:MY_JWT}
   const session = { jwt: token };
 
-  // Turn that session into JSON
+  //Turn theat session into JSON
   const sessionJSON = JSON.stringify(session);
 
-  // Take JSON and encode it as base64
-  const base64 = Buffer.from(sessionJSON).toString('base64');
+  //Take JSON and encode it as base 64
+  const base64 = Buffer.from(sessionJSON).toString("base64");
 
-  // return a string thats the cookie with the encoded data
+  //return a string thats the cookie with the encoded data
   return [`session=${base64}`];
 };

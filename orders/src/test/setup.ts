@@ -29,7 +29,7 @@ beforeAll(async () => {
   const mongoUri = mongo.getUri();
 
   await mongoose.connect(mongoUri, {});
-});
+},30000);
 
 /**
  *  Run before eeach test
