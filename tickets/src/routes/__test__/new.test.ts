@@ -87,5 +87,5 @@ it("publishes an event", async () => {
     })
     .expect(201);
 
-  console.log(natsWrapper);
+  // console.log(natsWrapper);
 });

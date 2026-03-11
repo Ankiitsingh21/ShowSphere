@@ -31,6 +31,7 @@
     "express-validator": "^7.3.1",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.2.3",
+    "mongoose-update-if-current": "^1.4.0",
     "node-nats-streaming": "^0.3.2",
     "prettier": "^3.8.1"
   },
