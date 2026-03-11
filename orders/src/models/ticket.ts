@@ -35,12 +35,12 @@ const ticketSchema = new mongoose.Schema(
   {
     //manipulate the JSON representation
     toJSON: {
-      transform(doc, ret:any) {
+      transform(doc, ret: any) {
         ret.id = ret._id;
         delete ret._id;
       },
     },
-  }
+  },
 );
 
 ticketSchema.statics.build = (attrs: TicketAttrs) => {

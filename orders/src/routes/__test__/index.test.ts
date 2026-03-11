@@ -46,10 +46,10 @@ it("fetches orders for an particular user", async () => {
     .set("Cookie", userTwo)
     .expect(200);
 
-      // const cc=response.body[0].id.ticket;
-      // console.log(cc);
-      // console.log(orderOne.id);
-     console.log(response.body);
+  // const cc=response.body[0].id.ticket;
+  // console.log(cc);
+  // console.log(orderOne.id);
+  console.log(response.body);
 
   // Make sure we only got the orders for User #2
   // console.log(response.body);

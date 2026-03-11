@@ -15,7 +15,7 @@ it("return a ticket when ticket does not found", async () => {
 it("return a ticket when ticket found", async () => {
   const response = await request(app)
     .post("/api/tickets")
-    .set("Cookie",await  global.signin())
+    .set("Cookie", await global.signin())
     .send({
       title: "aasddew",
       price: 20,

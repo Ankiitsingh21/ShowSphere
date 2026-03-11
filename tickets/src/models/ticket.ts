@@ -53,7 +53,6 @@ ticketSchema.plugin(updateIfCurrentPlugin);
 //   }
 // });
 
-
 ticketSchema.statics.build = (attrs: TicketAttrs) => {
   return new Ticket(attrs);
 };
