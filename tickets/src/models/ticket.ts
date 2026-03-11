@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { updateIfCurrentPlugin } from "../utils/helper";
+import { updateIfCurrentPlugin } from "@showsphere/common";
 
 interface TicketAttrs {
   title: string;

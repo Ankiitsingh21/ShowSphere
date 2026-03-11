@@ -1,14 +1,15 @@
 import mongoose from "mongoose";
 
 function updateIfCurrentPlugin(schema: mongoose.Schema) {
-  // 1. Rename __v to version
   schema.set("versionKey", "version");
 
-  // 2. Add OCC pre-save hook
   schema.pre("save", async function () {
     if (!this.isNew) {
+      const currentVersion = this.get("version") as number;
       // @ts-ignore
-      this.$where = { version: this.get("version") };
+      this.$where = { version: currentVersion };
+      // increment local doc version before saving
+      this.set("version", currentVersion + 1);
     }
   });
 }
