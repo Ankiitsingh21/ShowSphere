@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import {
+  BadRequestError,
   NotAuthorizedError,
   NotFoundError,
   requireAuth,
@@ -37,6 +38,10 @@ router.put(
       throw new NotFoundError();
     }
 
+    if (ticket.orderId) {
+      throw new BadRequestError("Ticket is reseved and can not edit");
+    }
+
     if (ticket.userId !== req.currentUser?.id) {
       throw new NotAuthorizedError();
     }
@@ -52,7 +57,7 @@ router.put(
       title: ticket.title,
       price: ticket.price,
       userId: ticket.userId,
-      version: ticket.version
+      version: ticket.version,
     });
 
     res.send(ticket);
