@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { OrderStatus } from "@showsphere/common";
+import { OrderStatus, updateIfCurrentPlugin } from "@showsphere/common";
 import { TicketDoc } from "./ticket";
 
 export { OrderStatus };
@@ -9,11 +9,13 @@ interface OrderAttrs {
   status: OrderStatus;
   expiresAt: Date;
   ticket: TicketDoc;
+  // version: number;
 }
 
 interface OrderDoc extends mongoose.Document {
   id: string;
   userId: string;
+  version: number;
   status: OrderStatus;
   expiresAt: Date;
   ticket: TicketDoc;
@@ -52,6 +54,8 @@ const orderSchema = new mongoose.Schema(
     },
   },
 );
+
+orderSchema.plugin(updateIfCurrentPlugin);
 
 orderSchema.statics.build = (attrs: OrderAttrs) => {
   return new Order(attrs);

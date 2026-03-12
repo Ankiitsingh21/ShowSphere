@@ -44,7 +44,7 @@ const ticketSchema = new mongoose.Schema(
   },
 );
 
-ticketSchema.set("versionKey", "version");
+// ticketSchema.set("versionKey", "version");
 ticketSchema.plugin(updateIfCurrentPlugin);
 // ticketSchema.pre("save", async function () {
 //   if (!this.isNew) {

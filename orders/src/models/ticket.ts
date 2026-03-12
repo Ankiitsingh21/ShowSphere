@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { Order, OrderStatus } from "./order";
+import { updateIfCurrentPlugin } from "@showsphere/common";
 
 interface TicketAttrs {
   id?: string;
@@ -12,6 +13,7 @@ export interface TicketDoc extends mongoose.Document {
   id: string;
   title: string;
   price: number;
+  version: number;
   //   userId: string;
   isReserved(): Promise<boolean>;
 }
@@ -42,6 +44,8 @@ const ticketSchema = new mongoose.Schema(
     },
   },
 );
+
+ticketSchema.plugin(updateIfCurrentPlugin);
 
 ticketSchema.statics.build = (attrs: TicketAttrs) => {
   const { id, ...rest } = attrs;
