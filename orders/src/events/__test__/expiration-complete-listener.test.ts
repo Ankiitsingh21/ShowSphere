@@ -6,7 +6,6 @@ import mongoose from "mongoose";
 import { Order, OrderStatus } from "../../models/order";
 import { ExpirationCompleteEvent } from "@showsphere/common";
 
-
 const setup = async () => {
   //create instance of the listener
   const listener = new ExpirationCompleteListener(natsWrapper.client);
@@ -21,7 +20,7 @@ const setup = async () => {
   const order = Order.build({
     status: OrderStatus.Created,
     userId: "ankiitsingh21",
-    expiresAt: new Date(), 
+    expiresAt: new Date(),
     ticket,
   });
   await order.save();
@@ -54,9 +53,9 @@ it("emit on OrderCancelled event", async () => {
 
   expect(natsWrapper.client.publish).toHaveBeenCalled();
 
-    // console.log(natsWrapper.client.publish.mock.calls);
+  // console.log(natsWrapper.client.publish.mock.calls);
   const eventData = JSON.parse(
-    (natsWrapper.client.publish as jest.Mock).mock.calls[0][1]
+    (natsWrapper.client.publish as jest.Mock).mock.calls[0][1],
   );
   expect(eventData.id).toEqual(order.id);
 });
