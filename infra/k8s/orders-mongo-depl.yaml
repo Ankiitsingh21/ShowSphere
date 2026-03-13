@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: orders-mongo-srv
+  name: orders-mongo-depl
 spec:
   replicas: 1
   selector:    # find pods how it acutually created
