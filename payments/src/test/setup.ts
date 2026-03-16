@@ -15,7 +15,7 @@ declare global {
 jest.mock("../nats-wrapper.ts");
 
 // Use Stripe testing key
-process.env.STRIPE_KEY = "STRIPE_TEST_KEY";
+process.env.STRIPE_KEY = "STRIPE_SECRET_KEY";
 
 let mongo: MongoMemoryServer;
 
