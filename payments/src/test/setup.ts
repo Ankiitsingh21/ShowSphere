@@ -1,80 +1,63 @@
+import jwt from "jsonwebtoken";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
-import jwt from "jsonwebtoken";
+import { app } from "../app";
 
-// global signup function
 declare global {
-  var signin: () => string[];
+  var signin: (id?: string) => string[];
 }
 
-/**
- * Use mongodb memory srever for test env
- * Copy of mongodb in memory
- *
- */
+//Trick:anything tries to import that filel =>JEST will redirect it to the file inside __mock__ directory
+jest.mock("../nats-wrapper.ts");
 
-import { app } from "../app";
-import request from "supertest";
-
-jest.mock("../nats-wrapper");
-// jest.setTimeout(30000);
+//Insert Stripe API key 
+//This key is from Stripe documentation (just for testing)
+process.env.STRIPE_KEY = process.env.STRIPE_TESTING_KEY;
 
 let mongo: any;
-/**
- * run before every test
- * connect mongosse to mongodb in memory
- */
+//This will starts before Testing ...
+
 beforeAll(async () => {
-  process.env.JWT_KEY = "asddf";
-  mongo = await MongoMemoryServer.create();
-  const mongoUri = mongo.getUri();
-
-  await mongoose.connect(mongoUri, {});
-}, 30000);
-
-/**
- *  Run before eeach test
- *  clear the db by deleting every collection
- */
-beforeEach(async () => {
+  //reset mock function
   jest.clearAllMocks();
+  process.env.JWT_KEY = "anything"; //This line to prevent The necessity of ENV var
+  const mongo = new MongoMemoryServer();
+  await mongo.start(); //Start the MongoDB instance
+  const mongoUri = await mongo.getUri(); //Get URL to connect to it
+  await mongoose.connect(mongoUri);
+});
+
+//THIS will starts before each Test ...
+beforeEach(async () => {
+  //We will reach into this MongoDB DB & delete / reset all the data inside there
   const collections = await mongoose.connection.db?.collections();
   for (let collection of collections!) {
-    await collection.deleteMany({});
+    await collection.deleteMany({}); //delete All Docs
   }
 });
 
-/**
- *  Run after all our test are complete
- */
-
+//THIS will starts after All Tests ...
 afterAll(async () => {
-  await mongo.stop();
+  await mongo?.stop();
   await mongoose.connection.close();
 });
 
-global.signin = () => {
-  //Build  a JWT payload
-  const id = new mongoose.Types.ObjectId().toHexString();
-
+global.signin = (id?: string) => {
+  //Build a JWT payload. {id,email}
   const payload = {
-    id: id,
-    email: "asdwqdw@mail.com",
+    // id: "123test123",      Rq:in some tests we need to use 2 diff user in the same test (so we will generate a new id):
+    id: id || new mongoose.Types.ObjectId().toHexString(),
+    email: "test@test.com",
   };
-
-  //create the jwt!
-
+  //Create the JWT!
   const token = jwt.sign(payload, process.env.JWT_KEY!);
-
-  //Build session Object. {jst:MY_JWT}
+  //Build session Object. {jwt: MY_JWT}
   const session = { jwt: token };
-
-  //Turn theat session into JSON
+  //Turn that session into JSON
   const sessionJSON = JSON.stringify(session);
-
-  //Take JSON and encode it as base 64
+  //Take JSON and encode it as base64
   const base64 = Buffer.from(sessionJSON).toString("base64");
-
-  //return a string thats the cookie with the encoded data
+  //Return a string thats the cookie with encoded data
+  // return [`express:sess=${base64}`];
   return [`session=${base64}`];
 };
