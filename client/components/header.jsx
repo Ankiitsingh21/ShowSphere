@@ -21,10 +21,7 @@ export default ({ currentUser }) => {
     });
 
   return (
-    <nav
-      className="navbar navbar-expand-lg bg-dark fs-2"
-      data-bs-theme="dark"
-    >
+    <nav className="navbar navbar-expand-lg bg-dark fs-2" data-bs-theme="dark">
       <div class="container-fluid">
         <Link href="/" style={{ textDecoration: "none" }}>
           <div className="navbar-brand">Showsphere</div>

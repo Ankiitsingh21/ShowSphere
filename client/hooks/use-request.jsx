@@ -42,7 +42,7 @@ export default ({ url, method, body, onSuccess }) => {
               <li key={index}>{msg}</li>
             ))}
           </ul>
-        </div>
+        </div>,
       );
     }
   };
