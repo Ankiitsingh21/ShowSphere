@@ -1,4 +1,3 @@
-import buildClient from "../api/build-client";
 
 const LandingPage = ({ currentUser }) => {
   return currentUser ? (
@@ -8,14 +7,8 @@ const LandingPage = ({ currentUser }) => {
   );
 };
 
-LandingPage.getInitialProps = async (context) => {
-  try {
-    const { data } = await buildClient(context).get("/api/users/currentuser");
-    return data;
-  } catch (err) {
-    console.error("[index] currentuser fetch failed:", err.message);
-    return { currentUser: null };
-  }
+LandingPage.getInitialProps = async (context,client,currentUser) => {
+  return {};
 };
 
 export default LandingPage;

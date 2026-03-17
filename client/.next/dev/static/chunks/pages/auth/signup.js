@@ -1,12 +1,13 @@
 __turbopack_load_page_chunks__("/auth/signup", [
-  "static/chunks/node_modules_next_dist_compiled_caaa605a._.js",
-  "static/chunks/node_modules_next_dist_shared_lib_8bac8163._.js",
+  "static/chunks/node_modules_next_dist_compiled_ebbb8748._.js",
+  "static/chunks/node_modules_next_dist_shared_lib_2f2a332e._.js",
   "static/chunks/node_modules_next_dist_client_5a8a528e._.js",
-  "static/chunks/node_modules_next_dist_75b597d7._.js",
+  "static/chunks/node_modules_next_dist_335aced5._.js",
+  "static/chunks/node_modules_next_router_104fab1c.js",
   "static/chunks/node_modules_react-dom_4411d9bd._.js",
   "static/chunks/node_modules_axios_lib_2c8bf6cb._.js",
   "static/chunks/node_modules_f1be3ba2._.js",
-  "static/chunks/[root-of-the-server]__35b6625f._.js",
+  "static/chunks/[root-of-the-server]__c471d261._.js",
   "static/chunks/pages_auth_signup_jsx_2da965e7._.js",
-  "static/chunks/turbopack-pages_auth_signup_jsx_20320c0b._.js"
+  "static/chunks/turbopack-pages_auth_signup_jsx_0b39043a._.js"
 ])

@@ -1,6 +1,9 @@
-[00:00:02.779] Server  LOG     ✓ Ready in 2s
-[00:00:14.879] Server  ERROR   ⨯ Error: getaddrinfo ENOTFOUND ingress-nginx-controller.ingress-nginx.svc.cluster.local
-[00:00:14.974] Server  ERROR   ⨯ Error: getaddrinfo ENOTFOUND ingress-nginx-controller.ingress-nginx.svc.cluster.local
-[00:00:15.226] Server  ERROR   ⨯ Error: getaddrinfo ENOTFOUND ingress-nginx-controller.ingress-nginx.svc.cluster.local
-[00:00:15.308] Server  ERROR   ⨯ Error: getaddrinfo ENOTFOUND ingress-nginx-controller.ingress-nginx.svc.cluster.local
-[00:00:16.503] Browser ERROR   uncaughtError: Error: getaddrinfo ENOTFOUND ingress-nginx-controller.ingress-nginx.svc.cluster.local
+[00:00:01.350] Server  LOG     ✓ Ready in 903ms
+[00:00:01.934] Server  ERROR   [_app] currentuser fetch failed: "getaddrinfo ENOTFOUND ingress-nginx-controller.ingress-nginx.svc.cluster.local"
+[00:00:11.226] Server  ERROR   (node:26692) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[00:00:19.518] Browser LOG     building client for browser
+[00:00:20.066] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[00:00:41.353] Browser LOG     building client for browser
+[00:00:51.442] Browser LOG     building client for browser
+[00:01:01.795] Browser LOG     building client for browser
