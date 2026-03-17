@@ -22,6 +22,7 @@ const start = async () => {
   }
 
   app.listen(3000, () => {
+    console.log("Starting Engine...");
     console.log(`Listening on ${3000}`);
   });
 };
