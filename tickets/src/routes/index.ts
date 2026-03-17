@@ -7,7 +7,7 @@ router.get(
   "/api/tickets",
   async (req: Request, res: Response, next: NextFunction) => {
     const tickets = await Ticket.find({
-      orderId:undefined
+      orderId: undefined,
     });
     res.send(tickets);
   },

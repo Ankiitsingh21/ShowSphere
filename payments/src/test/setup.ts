@@ -31,7 +31,7 @@ beforeAll(async () => {
   const mongoUri = mongo.getUri();
 
   await mongoose.connect(mongoUri);
-},30000);
+}, 30000);
 
 // Runs before each test
 beforeEach(async () => {

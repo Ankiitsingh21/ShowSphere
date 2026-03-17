@@ -4,7 +4,6 @@ import { natsWrapper } from "../../../nats-wrapper";
 import { OrderCancelledListener } from "../order-cancelled-listener";
 import { OrderCancelledEvent, OrderStatus } from "@showsphere/common";
 
-
 const setup = async () => {
   //create an instance of the listener
   const listener = new OrderCancelledListener(natsWrapper.client);

@@ -6,7 +6,6 @@ import { OrderStatus } from "@showsphere/common";
 import { stripe } from "../../stripe";
 import { Payment } from "../../models/payment";
 
-
 // jest.mock("../../stripe.ts");
 
 it("returns a 404 when purchasing an order that does not exist", async () => {
@@ -66,12 +65,12 @@ it("returns a 201 with valid inputs", async () => {
     status: OrderStatus.Created,
   });
   await order.save();
-  const resp=await request(app)
+  const resp = await request(app)
     .post("/api/payments")
     .set("Cookie", global.signin(userId))
-    .send({ token: 'tok_visa', orderId: order.id })
+    .send({ token: "tok_visa", orderId: order.id })
     .expect(201);
-//     console.log(resp);
+  //     console.log(resp);
   //Load charges (how : from Stripe documentation ):
   const stripeCharges = await stripe.charges.list({ limit: 50 });
 
@@ -80,7 +79,7 @@ it("returns a 201 with valid inputs", async () => {
   });
 
   expect(stripeCharge).toBeDefined();
-  
+
   expect(stripeCharge?.currency).toEqual("usd");
 
   const payment = await Payment.findOne({

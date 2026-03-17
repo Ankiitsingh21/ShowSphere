@@ -21,7 +21,7 @@ const start = async () => {
   if (!process.env.NATS_URL) {
     throw new Error("NATS_URL is incorrect");
   }
-  if(!process.env.STRIPE_KEY){
+  if (!process.env.STRIPE_KEY) {
     throw new Error("stripe key is not present or either incorrect");
   }
 
@@ -45,7 +45,6 @@ const start = async () => {
 
     new OrderCreatedListener(natsWrapper.client).listen();
     new OrderCancelledListener(natsWrapper.client).listen();
-
   } catch (err) {
     console.log("Mongo connection failed. Retrying...");
     setTimeout(start, 5000);

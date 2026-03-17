@@ -1,4 +1,3 @@
-
 import mongoose from "mongoose";
 import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
@@ -35,12 +34,15 @@ const orderSchema = new mongoose.Schema(
         delete ret._id;
       },
     },
-  }
+  },
 );
 
 orderSchema.statics.build = (attrs: PaymentAttrs) => {
   return new Payment(attrs);
 };
 
-const Payment = mongoose.model<PaymentDoc, PaymentModel>("Payment", orderSchema);
+const Payment = mongoose.model<PaymentDoc, PaymentModel>(
+  "Payment",
+  orderSchema,
+);
 export { Payment };

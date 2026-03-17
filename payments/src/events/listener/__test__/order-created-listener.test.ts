@@ -4,7 +4,6 @@ import { OrderCreatedListener } from "../order-created-listener";
 import mongoose from "mongoose";
 import { Order } from "../../../models/order";
 
-
 const setup = async () => {
   //create an instance of the listener
   const listener = new OrderCreatedListener(natsWrapper.client);
