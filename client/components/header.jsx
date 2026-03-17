@@ -27,7 +27,7 @@ export default ({ currentUser }) => {
     >
       <div class="container-fluid">
         <Link href="/" style={{ textDecoration: "none" }}>
-          <div className="navbar-brand">SRayen</div>
+          <div className="navbar-brand">Showsphere</div>
         </Link>
         <div className="d-flex justify-content-end">
           <ul className="nav d-flex align-items-center">{links}</ul>
