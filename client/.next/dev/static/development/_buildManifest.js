@@ -2,15 +2,8 @@ self.__BUILD_MANIFEST = {
   "/": [
     "static/chunks/pages/index.js"
   ],
-  "/auth/signup": [
-    "static/chunks/pages/auth/signup.js"
-  ],
   "__rewrites": {
-    "afterFiles": [
-      {
-        "source": "/api/:path*"
-      }
-    ],
+    "afterFiles": [],
     "beforeFiles": [],
     "fallback": []
   },
