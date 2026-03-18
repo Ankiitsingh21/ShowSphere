@@ -906,14 +906,8 @@ Contributions are welcome! Here's how to get involved:
 
 <div align="center">
 
-Made with ❤️ by <a  href="https://github.com/ankiitsingh21">Ankit Singh</a>
+Made with ❤️ by [Ankit Singh](https://github.com/ankiitsingh21)
 
-</p>
+[⬆ Back to top](#-showsphere)
 
-  
-
-<p  align="center">
-
-<a  href="#showsphere">Back to top</a>
-
-</p>
+</div>
