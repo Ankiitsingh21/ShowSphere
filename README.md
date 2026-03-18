@@ -172,123 +172,63 @@ This project showcases:
 
 ### Additional Highlights
 
-  
-
 | Feature | Description |
-
 |---------|-------------|
-
-| **Microservices** | 5 independent backend services with dedicated databases |
-
+| **Microservices** | 5 independent services with dedicated databases |
 | **Event-Driven** | Asynchronous communication via NATS Streaming |
-
 | **Concurrency Control** | Optimistic locking with version numbers |
-
-| **Shared Library** | Common NPM package for reusable code |
-
-| **Full Testing** | Comprehensive test suites with in-memory MongoDB |
-
+| **Shared Library** | `@showsphere/common` NPM package |
+| **Full Testing** | Jest + Supertest with in-memory MongoDB |
 | **CI/CD Ready** | GitHub Actions workflow for automated testing |
-
 | **Production Ready** | Kubernetes manifests for deployment |
-
-  
 
 ---
 
-  
-
 ## Architecture
 
-  
-
-### System Architecture Diagram
-
-  
+### System Overview
 
 ```
-
 ┌─────────────────────────────────────────────────────────────────────────────────┐
-
-│ KUBERNETES CLUSTER │
-
+│                              KUBERNETES CLUSTER                                 │
 ├─────────────────────────────────────────────────────────────────────────────────┤
-
-│ │
-
-│ ┌──────────────────────────────────────────────────────────────────────┐ │
-
-│ │ NGINX INGRESS CONTROLLER │ │
-
-│ │ (ticketing.dev) │ │
-
-│ └────────────┬──────────────┬──────────────┬──────────────┬────────────┘ │
-
-│ │ │ │ │ │
-
-│ ┌────────────▼────┐ ┌──────▼──────┐ ┌───▼────┐ ┌──────▼──────┐ │
-
-│ │ /api/users/* │ │/api/tickets │ │/api/ │ │/api/payments│ │
-
-│ └────────┬────────┘ └──────┬──────┘ │orders/*│ └──────┬──────┘ │
-
-│ │ │ └───┬────┘ │ │
-
-│ ┌────────▼────────┐ ┌──────▼──────┐ ┌───▼────────┐ ┌──▼───────────┐ │
-
-│ │ AUTH SERVICE │ │ TICKETS │ │ ORDERS │ │ PAYMENTS │ │
-
-│ │ (Port 3000) │ │ SERVICE │ │ SERVICE │ │ SERVICE │ │
-
-│ └────────┬────────┘ └──────┬──────┘ └───┬────────┘ └──────┬───────┘ │
-
-│ │ │ │ │ │
-
-│ ┌────────▼────────┐ ┌──────▼──────┐ ┌───▼────────┐ ┌──────▼───────┐ │
-
-│ │ MongoDB │ │ MongoDB │ │ MongoDB │ │ MongoDB │ │
-
-│ │ (auth-db) │ │ (tickets-db)│ │ (orders-db)│ │ (payments-db)│ │
-
-│ └─────────────────┘ └─────────────┘ └────────────┘ └──────────────┘ │
-
-│ │
-
-│ ┌─────────────────────────────────────────────────────────────────────┐ │
-
-│ │ NATS STREAMING SERVER │ │
-
-│ │ (Event Bus - ticketing) │ │
-
-│ └───────────────────────────────┬─────────────────────────────────────┘ │
-
-│ │ │
-
-│ ┌───────────────────────────────▼─────────────────────────────────────┐ │
-
-│ │ EXPIRATION SERVICE │ │
-
-│ │ (Bull Queue + Redis) │ │
-
-│ └─────────────────────────────────────────────────────────────────────┘ │
-
-│ │
-
-│ ┌─────────────────────────────────────────────────────────────────────┐ │
-
-│ │ CLIENT (Next.js) │ │
-
-│ │ React + Bootstrap │ │
-
-│ └─────────────────────────────────────────────────────────────────────┘ │
-
-│ │
-
+│                                                                                 │
+│  ┌───────────────────────────────────────────────────────────────────────────┐  │
+│  │                        NGINX INGRESS CONTROLLER                           │  │
+│  │                            (ticketing.dev)                                │  │
+│  └──────┬─────────────────┬─────────────────┬─────────────────┬──────────────┘  │
+│         │                 │                 │                 │                 │
+│         ▼                 ▼                 ▼                 ▼                 │
+│  ┌─────────────┐   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐          │
+│  │    AUTH     │   │   TICKETS   │   │   ORDERS    │   │  PAYMENTS   │          │
+│  │   SERVICE   │   │   SERVICE   │   │   SERVICE   │   │   SERVICE   │          │
+│  │ /api/users  │   │ /api/tickets│   │ /api/orders │   │/api/payments│          │
+│  └──────┬──────┘   └──────┬──────┘   └──────┬──────┘   └──────┬──────┘          │
+│         │                 │                 │                 │                 │
+│         ▼                 ▼                 ▼                 ▼                 │
+│  ┌─────────────┐   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐          │
+│  │   MongoDB   │   │   MongoDB   │   │   MongoDB   │   │   MongoDB   │          │
+│  │  (auth-db)  │   │(tickets-db) │   │ (orders-db) │   │(payments-db)│          │
+│  └─────────────┘   └─────────────┘   └─────────────┘   └─────────────┘          │
+│                                                                                 │
+│  ┌───────────────────────────────────────────────────────────────────────────┐  │
+│  │                         NATS STREAMING SERVER                             │  │
+│  │                     (Event Bus - Cluster: ticketing)                      │  │
+│  └─────────────────────────────────┬─────────────────────────────────────────┘  │
+│                                    │                                            │
+│                                    ▼                                            │
+│  ┌───────────────────────────────────────────────────────────────────────────┐  │
+│  │                          EXPIRATION SERVICE                               │  │
+│  │                         (Bull Queue + Redis)                              │  │
+│  └───────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                 │
+│  ┌───────────────────────────────────────────────────────────────────────────┐  │
+│  │                          CLIENT (Next.js 16)                              │  │
+│  │                         React 19 + Bootstrap 5                            │  │
+│  └───────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                 │
 └─────────────────────────────────────────────────────────────────────────────────┘
-
 ```
-
-  
 
 ### Microservices Overview
 
