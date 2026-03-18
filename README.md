@@ -1,3 +1,7 @@
+
+
+  
+
 <h1  align="center">ShowSphere</h1>
 
   
@@ -168,123 +172,63 @@ This project showcases:
 
 ### Additional Highlights
 
-  
-
 | Feature | Description |
-
 |---------|-------------|
-
 | **Microservices** | 5 independent services with dedicated databases |
-
 | **Event-Driven** | Asynchronous communication via NATS Streaming |
-
 | **Concurrency Control** | Optimistic locking with version numbers |
-
 | **Shared Library** | `@showsphere/common` NPM package |
-
 | **Full Testing** | Jest + Supertest with in-memory MongoDB |
-
 | **CI/CD Ready** | GitHub Actions workflow for automated testing |
-
 | **Production Ready** | Kubernetes manifests for deployment |
-
-  
 
 ---
 
-  
-
 ## Architecture
-
-  
 
 ### System Overview
 
-  
-
 ```
-
 ┌─────────────────────────────────────────────────────────────────────────────────┐
-
-│ KUBERNETES CLUSTER │
-
+│                              KUBERNETES CLUSTER                                 │
 ├─────────────────────────────────────────────────────────────────────────────────┤
-
-│ │
-
-│ ┌───────────────────────────────────────────────────────────────────────────┐ │
-
-│ │ NGINX INGRESS CONTROLLER │ │
-
-│ │ (ticketing.dev) │ │
-
-│ └──────┬─────────────────┬─────────────────┬─────────────────┬──────────────┘ │
-
-│ │ │ │ │ │
-
-│ ▼ ▼ ▼ ▼ │
-
-│ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │
-
-│ │ AUTH │ │ TICKETS │ │ ORDERS │ │ PAYMENTS │ │
-
-│ │ SERVICE │ │ SERVICE │ │ SERVICE │ │ SERVICE │ │
-
-│ │ /api/users │ │ /api/tickets│ │ /api/orders │ │/api/payments│ │
-
-│ └──────┬──────┘ └──────┬──────┘ └──────┬──────┘ └──────┬──────┘ │
-
-│ │ │ │ │ │
-
-│ ▼ ▼ ▼ ▼ │
-
-│ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │
-
-│ │ MongoDB │ │ MongoDB │ │ MongoDB │ │ MongoDB │ │
-
-│ │ (auth-db) │ │(tickets-db) │ │ (orders-db) │ │(payments-db)│ │
-
-│ └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘ │
-
-│ │
-
-│ ┌───────────────────────────────────────────────────────────────────────────┐ │
-
-│ │ NATS STREAMING SERVER │ │
-
-│ │ (Event Bus - Cluster: ticketing) │ │
-
-│ └─────────────────────────────────┬─────────────────────────────────────────┘ │
-
-│ │ │
-
-│ ▼ │
-
-│ ┌───────────────────────────────────────────────────────────────────────────┐ │
-
-│ │ EXPIRATION SERVICE │ │
-
-│ │ (Bull Queue + Redis) │ │
-
-│ └───────────────────────────────────────────────────────────────────────────┘ │
-
-│ │
-
-│ ┌───────────────────────────────────────────────────────────────────────────┐ │
-
-│ │ CLIENT (Next.js 16) │ │
-
-│ │ React 19 + Bootstrap 5 │ │
-
-│ └───────────────────────────────────────────────────────────────────────────┘ │
-
-│ │
-
+│                                                                                 │
+│  ┌───────────────────────────────────────────────────────────────────────────┐  │
+│  │                        NGINX INGRESS CONTROLLER                           │  │
+│  │                            (ticketing.dev)                                │  │
+│  └──────┬─────────────────┬─────────────────┬─────────────────┬──────────────┘  │
+│         │                 │                 │                 │                 │
+│         ▼                 ▼                 ▼                 ▼                 │
+│  ┌─────────────┐   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐          │
+│  │    AUTH     │   │   TICKETS   │   │   ORDERS    │   │  PAYMENTS   │          │
+│  │   SERVICE   │   │   SERVICE   │   │   SERVICE   │   │   SERVICE   │          │
+│  │ /api/users  │   │ /api/tickets│   │ /api/orders │   │/api/payments│          │
+│  └──────┬──────┘   └──────┬──────┘   └──────┬──────┘   └──────┬──────┘          │
+│         │                 │                 │                 │                 │
+│         ▼                 ▼                 ▼                 ▼                 │
+│  ┌─────────────┐   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐          │
+│  │   MongoDB   │   │   MongoDB   │   │   MongoDB   │   │   MongoDB   │          │
+│  │  (auth-db)  │   │(tickets-db) │   │ (orders-db) │   │(payments-db)│          │
+│  └─────────────┘   └─────────────┘   └─────────────┘   └─────────────┘          │
+│                                                                                 │
+│  ┌───────────────────────────────────────────────────────────────────────────┐  │
+│  │                         NATS STREAMING SERVER                             │  │
+│  │                     (Event Bus - Cluster: ticketing)                      │  │
+│  └─────────────────────────────────┬─────────────────────────────────────────┘  │
+│                                    │                                            │
+│                                    ▼                                            │
+│  ┌───────────────────────────────────────────────────────────────────────────┐  │
+│  │                          EXPIRATION SERVICE                               │  │
+│  │                         (Bull Queue + Redis)                              │  │
+│  └───────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                 │
+│  ┌───────────────────────────────────────────────────────────────────────────┐  │
+│  │                          CLIENT (Next.js 16)                              │  │
+│  │                         React 19 + Bootstrap 5                            │  │
+│  └───────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                 │
 └─────────────────────────────────────────────────────────────────────────────────┘
-
 ```
-
-  
 
 ### Microservices Overview
 
@@ -540,113 +484,83 @@ end
 
   
 
-<table>
-
-<tr>
-
-<td  width="33%">
-
-  
-
 ### Backend Services
 
-| Service | Stack |
-
-|---------|-------|
-
-| **Auth** | Express, MongoDB |
-
-| **Tickets** | Express, MongoDB |
-
-| **Orders** | Express, MongoDB |
-
-| **Payments** | Express, MongoDB, Stripe |
-
-| **Expiration** | Bull, Redis |
-
   
 
-*All services built with Node.js + TypeScript*
+| Service | Technology | Purpose |
 
-  
+|---------|------------|---------|
 
-</td>
+| **Auth** | Node.js, Express, TypeScript, MongoDB | User authentication & authorization |
 
-<td  width="33%">
+| **Tickets** | Node.js, Express, TypeScript, MongoDB | Ticket CRUD operations |
+
+| **Orders** | Node.js, Express, TypeScript, MongoDB | Order management |
+
+| **Payments** | Node.js, Express, TypeScript, MongoDB, Stripe | Payment processing |
+
+| **Expiration** | Node.js, TypeScript, Bull, Redis | Background job processing |
 
   
 
 ### Frontend
 
+  
+
 | Technology | Purpose |
 
 |------------|---------|
 
-| **Next.js 16** | SSR Framework |
+| **Next.js 16** | React framework with SSR |
 
-| **React 19** | UI Library |
+| **React 19** | UI components |
 
-| **Bootstrap 5** | Styling |
+| **Bootstrap 5** | Styling & responsive design |
 
-| **Axios** | HTTP Client |
+| **Axios** | HTTP client |
 
-| **Stripe.js** | Payments UI |
-
-  
-
-</td>
-
-<td  width="33%">
+| **react-stripe-checkout** | Stripe payment integration |
 
   
 
 ### Infrastructure
 
+  
+
 | Technology | Purpose |
 
 |------------|---------|
 
-| **Docker** | Containers |
+| **Docker** | Containerization |
 
-| **Kubernetes** | Orchestration |
+| **Kubernetes** | Container orchestration |
 
-| **Skaffold** | Dev Workflow |
+| **Skaffold** | Local development workflow |
 
-| **NATS Streaming** | Event Bus |
+| **NATS Streaming** | Event bus / message broker |
 
-| **Nginx Ingress** | Routing |
+| **Nginx Ingress** | Load balancing & routing |
 
-| **GitHub Actions** | CI/CD |
-
-  
-
-</td>
-
-</tr>
-
-</table>
+| **GitHub Actions** | CI/CD pipeline |
 
   
 
-### Shared Library (`@showsphere/common`)
+### Shared Library
 
   
 
-```
+The `@showsphere/common` NPM package contains:
 
-@showsphere/common
+- Custom error classes (BadRequestError, NotFoundError, etc.)
 
-├── errors/ → BadRequestError, NotFoundError, NotAuthorizedError, etc.
+- Express middlewares (currentUser, requireAuth, errorHandler)
 
-├── middlewares/ → currentUser, requireAuth, errorHandler, validateRequest
+- Event definitions and base classes
 
-├── events/ → Base Publisher/Listener, Event interfaces
+- TypeScript interfaces and types
 
-├── types/ → OrderStatus enum, TypeScript interfaces
-
-└── plugin/ → updateIfCurrentPlugin (Optimistic Concurrency)
-
-```
+- Mongoose plugins (optimistic concurrency)
 
   
 
@@ -662,153 +576,195 @@ end
 
 ShowSphere/
 
-│
+├── auth/ # Authentication Service
 
-├── 📁 auth/ # Authentication Service
+│ ├── src/
 
-│ └── src/
+│ │ ├── routes/ # API route handlers
 
-│ ├── routes/ # signup, signin, signout, current-user
+│ │ │ ├── signup.ts
 
-│ ├── models/ # User model
+│ │ │ ├── signin.ts
 
-│ ├── services/ # Password hashing (scrypt)
+│ │ │ ├── signout.ts
 
-│ └── test/ # Jest test setup
+│ │ │ └── current-user.ts
 
-│
+│ │ ├── modals/ # Mongoose models
 
-├── 📁 tickets/ # Tickets Service
+│ │ ├── services/ # Business logic (password hashing)
 
-│ └── src/
+│ │ ├── test/ # Test setup
 
-│ ├── routes/ # CRUD endpoints
+│ │ ├── app.ts # Express app configuration
 
-│ ├── models/ # Ticket model
+│ │ └── index.ts # Service entry point
 
-│ ├── events/
+│ ├── Dockerfile
 
-│ │ ├── publishers/ # TicketCreated, TicketUpdated
-
-│ │ └── listeners/ # OrderCreated, OrderCancelled
-
-│ └── __mocks__/ # NATS wrapper mock
+│ └── package.json
 
 │
 
-├── 📁 orders/ # Orders Service
+├── tickets/ # Tickets Service
 
-│ └── src/
+│ ├── src/
 
-│ ├── routes/ # new, show, index, delete
+│ │ ├── routes/ # CRUD endpoints
 
-│ ├── models/ # Order, Ticket (replica)
+│ │ ├── models/ # Ticket model
 
-│ └── events/
+│ │ ├── events/ # Event publishers & listeners
 
-│ ├── publishers/ # OrderCreated, OrderCancelled
+│ │ │ ├── publishers/
 
-│ └── listeners/ # TicketCreated, TicketUpdated, ExpirationComplete, PaymentCreated
+│ │ │ └── listeners/
 
-│
+│ │ ├── __mocks__/ # Jest mocks
 
-├── 📁 payments/ # Payments Service
+│ │ └── nats-wrapper.ts # NATS client singleton
 
-│ └── src/
+│ ├── Dockerfile
 
-│ ├── routes/ # POST /api/payments
-
-│ ├── models/ # Order, Payment
-
-│ ├── events/ # PaymentCreated publisher
-
-│ └── stripe.ts # Stripe SDK config
+│ └── package.json
 
 │
 
-├── 📁 expiration/ # Expiration Service
+├── orders/ # Orders Service
 
-│ └── src/
+│ ├── src/
 
-│ ├── queues/ # Bull queue setup
+│ │ ├── routes/ # Order management endpoints
 
-│ ├── events/ # OrderCreated listener, ExpirationComplete publisher
+│ │ ├── models/ # Order & Ticket models
 
-│ └── nats-wrapper.ts
+│ │ └── events/ # Event handling
+
+│ ├── Dockerfile
+
+│ └── package.json
 
 │
 
-├── 📁 client/ # Next.js Frontend
+├── payments/ # Payments Service
+
+│ ├── src/
+
+│ │ ├── routes/ # Payment endpoints
+
+│ │ ├── models/ # Order & Payment models
+
+│ │ ├── events/ # Event handling
+
+│ │ └── stripe.ts # Stripe configuration
+
+│ ├── Dockerfile
+
+│ └── package.json
+
+│
+
+├── expiration/ # Expiration Service
+
+│ ├── src/
+
+│ │ ├── queues/ # Bull queue configuration
+
+│ │ ├── events/ # Event handling
+
+│ │ └── nats-wrapper.ts
+
+│ ├── Dockerfile
+
+│ └── package.json
+
+│
+
+├── client/ # Next.js Frontend
 
 │ ├── pages/
 
-│ │ ├── auth/ # signin, signup, signout
+│ │ ├── auth/ # Authentication pages
 
-│ │ ├── tickets/ # new, [ticketId]
+│ │ ├── tickets/ # Ticket pages
 
-│ │ └── orders/ # [orderId]
+│ │ ├── orders/ # Order pages
 
-│ ├── components/ # Header, etc.
+│ │ ├── _app.jsx # App wrapper
 
-│ ├── hooks/ # useRequest
+│ │ └── index.jsx # Landing page
 
-│ └── api/ # buildClient (SSR axios)
+│ ├── components/ # Reusable components
 
-│
+│ ├── hooks/ # Custom React hooks
 
-├── 📁 common/ # Shared NPM Package
+│ ├── api/ # API client configuration
 
-│ └── src/
-
-│ ├── errors/ # Custom error classes
-
-│ ├── middlewares/ # Express middlewares
-
-│ ├── events/ # Event base classes & interfaces
-
-│ ├── types/ # Shared types
-
-│ └── plugin/ # Mongoose plugins
+│ └── package.json
 
 │
 
-├── 📁 infra/k8s/ # Kubernetes Manifests
+├── common/ # Shared NPM Package
 
-│ ├── auth-depl.yaml # Auth deployment + service
+│ ├── src/
 
-│ ├── auth-mongo-depl.yaml # Auth MongoDB
+│ │ ├── errors/ # Custom error classes
 
-│ ├── tickets-depl.yaml # Tickets deployment + service
+│ │ ├── middlewares/ # Express middlewares
 
-│ ├── tickets-mongo-depl.yaml # Tickets MongoDB
+│ │ ├── events/ # Event definitions
 
-│ ├── orders-depl.yaml # Orders deployment + service
+│ │ ├── types/ # TypeScript types
 
-│ ├── orders-mongo-depl.yaml # Orders MongoDB
+│ │ └── plugin/ # Mongoose plugins
 
-│ ├── payments-depl.yaml # Payments deployment + service
-
-│ ├── payments-mongo-depl.yaml # Payments MongoDB
-
-│ ├── expiration-depl.yaml # Expiration deployment
-
-│ ├── expiration-redis-depl.yaml# Redis for Bull
-
-│ ├── nats-depl.yaml # NATS Streaming
-
-│ ├── client-depl.yaml # Next.js client
-
-│ └── ingress-srv.yaml # Nginx Ingress rules
+│ └── package.json
 
 │
 
-├── 📁 .github/workflows/
+├── infra/ # Infrastructure
 
-│ └── tests.yml # CI pipeline
+│ └── k8s/ # Kubernetes manifests
+
+│ ├── auth-depl.yaml
+
+│ ├── auth-mongo-depl.yaml
+
+│ ├── tickets-depl.yaml
+
+│ ├── tickets-mongo-depl.yaml
+
+│ ├── orders-depl.yaml
+
+│ ├── orders-mongo-depl.yaml
+
+│ ├── payments-depl.yaml
+
+│ ├── payments-mongo-depl.yaml
+
+│ ├── expiration-depl.yaml
+
+│ ├── expiration-red-depl.yaml
+
+│ ├── nats-depl.yaml
+
+│ ├── client-depl.yaml
+
+│ └── ingress-srv.yaml
 
 │
 
-└── skaffold.yaml # Local dev config
+├── nats-test/ # NATS Testing Utilities
+
+├── .github/
+
+│ └── workflows/
+
+│ └── tests.yml # CI/CD configuration
+
+├── skaffold.yaml # Skaffold configuration
+
+└── README.md
 
 ```
 
@@ -823,6 +779,10 @@ ShowSphere/
   
 
 ### Prerequisites
+
+  
+
+Ensure you have the following installed:
 
   
 
@@ -846,7 +806,9 @@ ShowSphere/
 
   
 
-**1. Clone the Repository**
+#### 1. Clone the Repository
+
+  
 
 ```bash
 
@@ -858,17 +820,19 @@ cd  ShowSphere
 
   
 
-**2. Enable Kubernetes**
-
-```
-
-Docker Desktop → Settings → Kubernetes → Enable Kubernetes
-
-```
+#### 2. Enable Kubernetes
 
   
 
-**3. Install NGINX Ingress Controller**
+Enable Kubernetes in Docker Desktop:
+
+- Open Docker Desktop → Settings → Kubernetes → Enable Kubernetes
+
+  
+
+#### 3. Install NGINX Ingress Controller
+
+  
 
 ```bash
 
@@ -878,21 +842,19 @@ kubectl  apply  -f  https://raw.githubusercontent.com/kubernetes/ingress-nginx/c
 
   
 
-**4. Configure Host File**
+#### 4. Configure Host File
 
   
 
-| OS | File Path |
-
-|----|-----------|
-
-| Windows | `C:\Windows\System32\drivers\etc\hosts` |
-
-| Mac/Linux | `/etc/hosts` |
+Add the following entry to your hosts file:
 
   
 
-Add this line:
+**Windows:**  `C:\Windows\System32\drivers\etc\hosts`
+
+**Mac/Linux:**  `/etc/hosts`
+
+  
 
 ```
 
@@ -902,7 +864,9 @@ Add this line:
 
   
 
-**5. Create Kubernetes Secrets**
+#### 5. Create Kubernetes Secrets
+
+  
 
 ```bash
 
@@ -920,7 +884,9 @@ kubectl  create  secret  generic  stripe-secret  --from-literal=STRIPE_KEY=your_
 
   
 
-**6. Start the Application**
+#### 6. Start the Application
+
+  
 
 ```bash
 
@@ -930,7 +896,13 @@ skaffold  dev
 
   
 
-**7. Access the Application**
+#### 7. Access the Application
+
+  
+
+Open your browser and navigate to:
+
+  
 
 ```
 
@@ -940,7 +912,7 @@ https://ticketing.dev
 
   
 
->  **Note:** Type `thisisunsafe` in Chrome to bypass the self-signed certificate warning.
+>  **Note:** You may need to type `thisisunsafe` in Chrome to bypass the self-signed certificate warning.
 
   
 
@@ -956,9 +928,9 @@ https://ticketing.dev
 
   
 
-| Method | Endpoint | Description | Auth |
+| Method | Endpoint | Description | Auth Required |
 
-|--------|----------|-------------|------|
+|--------|----------|-------------|---------------|
 
 | `POST` | `/api/users/signup` | Register new user | No |
 
@@ -978,25 +950,37 @@ https://ticketing.dev
 
 #### Sign Up
 
-```http
+```bash
 
-POST /api/users/signup
+POST  /api/users/signup
 
-Content-Type: application/json
+Content-Type:  application/json
 
   
 
-{ "email": "test@test.com", "password": "password123" }
+{
+
+"email":  "test@test.com",
+
+"password":  "password123"
+
+}
 
 ```
 
   
 
-**Response (201):**
+**Response (201 Created):**
 
 ```json
 
-{ "id": "64a7b8c9d1e2f3a4b5c6d7e8", "email": "test@test.com" }
+{
+
+"id": "64a7b8c9d1e2f3a4b5c6d7e8",
+
+"email": "test@test.com"
+
+}
 
 ```
 
@@ -1004,25 +988,37 @@ Content-Type: application/json
 
 #### Sign In
 
-```http
+```bash
 
-POST /api/users/signin
+POST  /api/users/signin
 
-Content-Type: application/json
+Content-Type:  application/json
 
   
 
-{ "email": "test@test.com", "password": "password123" }
+{
+
+"email":  "test@test.com",
+
+"password":  "password123"
+
+}
 
 ```
 
   
 
-**Response (200):**
+**Response (200 OK):**
 
 ```json
 
-{ "id": "64a7b8c9d1e2f3a4b5c6d7e8", "email": "test@test.com" }
+{
+
+"id": "64a7b8c9d1e2f3a4b5c6d7e8",
+
+"email": "test@test.com"
+
+}
 
 ```
 
@@ -1040,13 +1036,13 @@ Content-Type: application/json
 
   
 
-| Method | Endpoint | Description | Auth |
+| Method | Endpoint | Description | Auth Required |
 
-|--------|----------|-------------|------|
+|--------|----------|-------------|---------------|
 
 | `POST` | `/api/tickets` | Create new ticket | Yes |
 
-| `GET` | `/api/tickets` | List all tickets | No |
+| `GET` | `/api/tickets` | List all available tickets | No |
 
 | `GET` | `/api/tickets/:id` | Get ticket by ID | No |
 
@@ -1062,23 +1058,29 @@ Content-Type: application/json
 
 #### Create Ticket
 
-```http
+```bash
 
-POST /api/tickets
+POST  /api/tickets
 
-Content-Type: application/json
+Content-Type:  application/json
 
-Cookie: session=<jwt_cookie>
+Cookie:  session=<jwt_cookie>
 
   
 
-{ "title": "Concert Ticket", "price": 99.99 }
+{
+
+"title":  "Concert Ticket",
+
+"price":  99.99
+
+}
 
 ```
 
   
 
-**Response (201):**
+**Response (201 Created):**
 
 ```json
 
@@ -1100,6 +1102,42 @@ Cookie: session=<jwt_cookie>
 
   
 
+#### List Tickets
+
+```bash
+
+GET  /api/tickets
+
+```
+
+  
+
+**Response (200 OK):**
+
+```json
+
+[
+
+{
+
+"id": "64a7b8c9d1e2f3a4b5c6d7e8",
+
+"title": "Concert Ticket",
+
+"price": 99.99,
+
+"userId": "64a7b8c9d1e2f3a4b5c6d7e9",
+
+"version": 0
+
+}
+
+]
+
+```
+
+  
+
 </details>
 
   
@@ -1112,9 +1150,9 @@ Cookie: session=<jwt_cookie>
 
   
 
-| Method | Endpoint | Description | Auth |
+| Method | Endpoint | Description | Auth Required |
 
-|--------|----------|-------------|------|
+|--------|----------|-------------|---------------|
 
 | `POST` | `/api/orders` | Create new order | Yes |
 
@@ -1134,23 +1172,27 @@ Cookie: session=<jwt_cookie>
 
 #### Create Order
 
-```http
+```bash
 
-POST /api/orders
+POST  /api/orders
 
-Content-Type: application/json
+Content-Type:  application/json
 
-Cookie: session=<jwt_cookie>
+Cookie:  session=<jwt_cookie>
 
   
 
-{ "ticketId": "64a7b8c9d1e2f3a4b5c6d7e8" }
+{
+
+"ticketId":  "64a7b8c9d1e2f3a4b5c6d7e8"
+
+}
 
 ```
 
   
 
-**Response (201):**
+**Response (201 Created):**
 
 ```json
 
@@ -1162,7 +1204,15 @@ Cookie: session=<jwt_cookie>
 
 "expiresAt": "2024-01-15T10:31:00.000Z",
 
-"ticket": { "id": "64a7b8c9d1e2f3a4b5c6d7e8", "title": "Concert Ticket", "price": 99.99 },
+"ticket": {
+
+"id": "64a7b8c9d1e2f3a4b5c6d7e8",
+
+"title": "Concert Ticket",
+
+"price": 99.99
+
+},
 
 "userId": "64a7b8c9d1e2f3a4b5c6d7e9",
 
@@ -1186,9 +1236,9 @@ Cookie: session=<jwt_cookie>
 
   
 
-| Method | Endpoint | Description | Auth |
+| Method | Endpoint | Description | Auth Required |
 
-|--------|----------|-------------|------|
+|--------|----------|-------------|---------------|
 
 | `POST` | `/api/payments` | Process payment | Yes |
 
@@ -1202,27 +1252,37 @@ Cookie: session=<jwt_cookie>
 
 #### Create Payment
 
-```http
+```bash
 
-POST /api/payments
+POST  /api/payments
 
-Content-Type: application/json
+Content-Type:  application/json
 
-Cookie: session=<jwt_cookie>
+Cookie:  session=<jwt_cookie>
 
   
 
-{ "token": "tok_visa", "orderId": "64a7b8c9d1e2f3a4b5c6d7f0" }
+{
+
+"token":  "tok_visa",
+
+"orderId":  "64a7b8c9d1e2f3a4b5c6d7f0"
+
+}
 
 ```
 
   
 
-**Response (201):**
+**Response (201 Created):**
 
 ```json
 
-{ "id": "64a7b8c9d1e2f3a4b5c6d7f1" }
+{
+
+"id": "64a7b8c9d1e2f3a4b5c6d7f1"
+
+}
 
 ```
 
@@ -1237,6 +1297,10 @@ Cookie: session=<jwt_cookie>
   
 
 ## Event Types
+
+  
+
+The system uses the following events for inter-service communication:
 
   
 
@@ -1306,19 +1370,18 @@ cd  payments && npm  run  test:ci
 
   
 
-| Component | Technology |
+-  **Test Framework:** Jest with ts-jest preset
 
-|-----------|------------|
+-  **HTTP Testing:** Supertest
 
-| Test Framework | Jest + ts-jest |
+-  **Database:** MongoDB Memory Server (in-memory)
 
-| HTTP Testing | Supertest |
-
-| Database | MongoDB Memory Server |
-
-| Mocking | Jest mocks for NATS |
+-  **Mocking:** Jest mocks for NATS wrapper
 
   
+
+---
+
 
 ---
 
@@ -1460,7 +1523,9 @@ git push origin feature/amazing-feature
 
 ### Code Style
 
-- Run `npm run format` before committing
+  
+
+- Run `npm run format` before committing to ensure consistent code formatting
 
 - Follow TypeScript best practices
 
@@ -1471,6 +1536,40 @@ git push origin feature/amazing-feature
   
 
 ---
+
+  
+
+## Roadmap
+
+  
+
+- [ ] Add user profile management
+
+- [ ] Implement ticket categories
+
+- [ ] Add search and filtering
+
+- [ ] Email notifications
+
+- [ ] Admin dashboard
+
+- [ ] Rate limiting
+
+- [ ] Horizontal pod autoscaling
+
+- [ ] Helm charts for deployment
+
+- [ ] Prometheus metrics
+
+- [ ] Distributed tracing with Jaeger
+
+  
+
+---
+
+  
+
+
 
   
 
