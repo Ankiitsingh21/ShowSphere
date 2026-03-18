@@ -1,8 +1,4 @@
-<p  align="center">
 
-<img  src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/128/external-ticket-cinema-flaticons-lineal-color-flat-icons-2.png"  alt="ShowSphere Logo"  width="120"  height="120">
-
-</p>
 
   
 
@@ -1446,55 +1442,6 @@ cd  payments && npm  run  test:ci
 
 ---
 
-  
-
-## Screenshots
-
-  
-
-### Landing Page - Ticket Listing
-
-<p  align="center">
-
-<img  src="https://via.placeholder.com/800x400/1a1a2e/eaeaea?text=Ticket+Listing+Page"  alt="Landing Page"  width="100%">
-
-</p>
-
-  
-
-### Ticket Purchase Flow
-
-<p  align="center">
-
-<img  src="https://via.placeholder.com/800x400/16213e/eaeaea?text=Ticket+Purchase+Page"  alt="Ticket Purchase"  width="100%">
-
-</p>
-
-  
-
-### Stripe Payment Integration
-
-<p  align="center">
-
-<img  src="https://via.placeholder.com/800x400/0f3460/eaeaea?text=Payment+Page+with+Countdown"  alt="Payment Page"  width="100%">
-
-</p>
-
-  
-
-### Order History
-
-<p  align="center">
-
-<img  src="https://via.placeholder.com/800x400/1a1a2e/eaeaea?text=Order+History+Page"  alt="Order History"  width="100%">
-
-</p>
-
-  
-
->  **Note:** Replace placeholder images with actual screenshots of your application.
-
-  
 
 ---
 
