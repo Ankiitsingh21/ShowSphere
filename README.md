@@ -104,7 +104,7 @@ This project showcases:
 
 ### System Architecture Diagram
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────────────────────┐
 │                                   KUBERNETES CLUSTER                             │
 ├─────────────────────────────────────────────────────────────────────────────────┤
@@ -324,7 +324,7 @@ The `@showsphere/common` NPM package contains:
 
 ## Project Structure
 
-```
+```text
 ShowSphere/
 ├── auth/                          # Authentication Service
 │   ├── src/
@@ -466,7 +466,7 @@ Add the following entry to your hosts file:
 **Windows:** `C:\Windows\System32\drivers\etc\hosts`  
 **Mac/Linux:** `/etc/hosts`
 
-```
+```text
 127.0.0.1 ticketing.dev
 ```
 
@@ -490,7 +490,7 @@ skaffold dev
 
 Open your browser and navigate to:
 
-```
+```text
 https://ticketing.dev
 ```
 
@@ -759,12 +759,14 @@ cd payments && npm run test:ci
 ## Environment Variables
 
 ### Auth Service
+
 | Variable | Description |
 |----------|-------------|
 | `JWT_KEY` | Secret key for JWT signing |
 | `MONGO_URI` | MongoDB connection string |
 
 ### Tickets / Orders Service
+
 | Variable | Description |
 |----------|-------------|
 | `JWT_KEY` | Secret key for JWT signing |
@@ -774,6 +776,7 @@ cd payments && npm run test:ci
 | `NATS_CLIENT_ID` | NATS client identifier |
 
 ### Payments Service
+
 | Variable | Description |
 |----------|-------------|
 | `JWT_KEY` | Secret key for JWT signing |
@@ -784,6 +787,7 @@ cd payments && npm run test:ci
 | `STRIPE_KEY` | Stripe secret API key |
 
 ### Expiration Service
+
 | Variable | Description |
 |----------|-------------|
 | `NATS_URL` | NATS Streaming server URL |
