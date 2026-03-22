@@ -32,7 +32,7 @@ router.post(
       throw new NotAuthorizedError();
     }
     if (order.status === OrderStatus.Cancelled) {
-      console.log("hii");
+      // console.log("hii");
       throw new BadRequestError("Cannot pay for an cnacelled order");
     }
 
