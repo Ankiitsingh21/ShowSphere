@@ -18,7 +18,8 @@ export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
       version: data.version - 1,
     });
     if (!order) {
-      throw new NotFoundError();
+      msg.ack();
+      return;
     }
 
     order.set({
